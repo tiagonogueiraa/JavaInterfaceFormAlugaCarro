@@ -225,12 +225,14 @@ public class formCarro extends javax.swing.JFrame {
         
         Carro car = new Carro();
         
-        car.setcodigo(codigo);
+        car.setCodigo(codigo);
         car.setNome(nome);
         car.setMarca(marca);
         car.setPreco(preco);
         car.setValorLocacao(valorLocacao);
         car.setDiasParaLocacao(diasParaLocacao);
+        
+        //pegar retorno metodo
         Double valorAluguel = car.calcularValorAluguel(diasParaLocacao, valorLocacao, WIDTH);
         
      //  String valorTexto String.valueOf(valorAluguel);
