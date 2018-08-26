@@ -13,6 +13,9 @@ import classes.Carro;
  */
 public class formCarro extends javax.swing.JFrame {
 
+    
+    //instanciar a classe carro para conseguir usar as variáveis nos outros métodos.
+    private Carro car = null;
     /**
      * Creates new form formCarro
      */
@@ -46,7 +49,7 @@ public class formCarro extends javax.swing.JFrame {
         btCadastrar = new javax.swing.JButton();
         btLimpar = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btCalcularMulta = new javax.swing.JButton();
         lbMensagem = new javax.swing.JLabel();
         lbMensagemDias = new javax.swing.JLabel();
 
@@ -79,11 +82,26 @@ public class formCarro extends javax.swing.JFrame {
             }
         });
 
+        tfPrecoLocacao.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                tfPrecoLocacaoPropertyChange(evt);
+            }
+        });
+
         tfDiasLocado.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 tfDiasLocadoFocusLost(evt);
             }
         });
+
+        tfValorTotalLocacao.setEditable(false);
+        tfValorTotalLocacao.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfValorTotalLocacaoActionPerformed(evt);
+            }
+        });
+
+        tfValorMulta.setEditable(false);
 
         btCadastrar.setText("Cadastrar");
         btCadastrar.addActionListener(new java.awt.event.ActionListener() {
@@ -96,7 +114,12 @@ public class formCarro extends javax.swing.JFrame {
 
         jButton3.setText("Sair");
 
-        jButton4.setText("Calcular Multa");
+        btCalcularMulta.setText("Calcular Multa");
+        btCalcularMulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCalcularMultaActionPerformed(evt);
+            }
+        });
 
         lbMensagem.setForeground(new java.awt.Color(255, 0, 51));
 
@@ -137,7 +160,7 @@ public class formCarro extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
-                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btCalcularMulta, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 96, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -200,7 +223,7 @@ public class formCarro extends javax.swing.JFrame {
                             .addComponent(tfValorMulta)
                             .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton4)
+                        .addComponent(btCalcularMulta)
                         .addGap(53, 53, 53)))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,25 +242,29 @@ public class formCarro extends javax.swing.JFrame {
         String nome = tfModelo.getText();
         String marca = tfMarca.getText();
         
-        float preco =  Float.parseFloat(tfPrecoLocacao.getText());
-        float valorLocacao = Float.parseFloat(tfPrecoLocacao.getText());
-        int diasParaLocacao = Integer.parseInt(tfValorTotalLocacao.getText());
+        
         
         Carro car = new Carro();
         
         car.setCodigo(codigo);
         car.setNome(nome);
         car.setMarca(marca);
-        car.setPreco(preco);
-        car.setValorLocacao(valorLocacao);
-        car.setDiasParaLocacao(diasParaLocacao);
+        
+        car.setPreco(Float.parseFloat(tfPrecoLocacao.getText()));        
+        car.setDiasParaLocacao(Integer.parseInt(tfDiasLocado.getText()));
+        car.setValorLocacao(Float.parseFloat(tfPrecoLocacao.getText()));
         
         //pegar retorno metodo
-        Double valorAluguel = car.calcularValorAluguel(diasParaLocacao, valorLocacao, WIDTH);
+     
         
      //  String valorTexto String.valueOf(valorAluguel);
-        
-        tfValorTotalLocacao.setText(String.valueOf(valorAluguel));
+        int dias = Integer.parseInt(tfDiasLocado.getText());
+     
+        float multa = car.calcularMulta(dias);
+       
+        float valorTotalLocacao = car.calcularValorAluguel(dias);
+        String valor = String.valueOf(valorTotalLocacao);
+        tfValorTotalLocacao.setText(valor);
                 
         lbMensagem.setText("cadastro realizado");
 
@@ -249,13 +276,14 @@ public class formCarro extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        
+        //instância carro
         Carro car = new Carro();
         
+        //seta dados no formulario
         tfMarca.setText(car.getMarca());
         tfModelo.setText(car.getModelo());
-        
-        
+        tfDiasLocado.setText(String.valueOf(car.getDiasParaLocacao()));
+                
         
     }//GEN-LAST:event_formWindowOpened
 
@@ -271,6 +299,23 @@ public class formCarro extends javax.swing.JFrame {
             lbMensagemDias.setText("Dias não pode ser menor que 10.");
         }
     }//GEN-LAST:event_tfDiasLocadoFocusLost
+
+    private void tfValorTotalLocacaoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfValorTotalLocacaoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfValorTotalLocacaoActionPerformed
+
+    private void tfPrecoLocacaoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_tfPrecoLocacaoPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPrecoLocacaoPropertyChange
+
+    private void btCalcularMultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCalcularMultaActionPerformed
+        // TODO add your handling code here:
+        int dias = Integer.parseInt(tfDiasLocado.getText());
+        float multa = car.calcularMulta(dias);
+        
+        tfValorMulta.setText(String.valueOf(multa));
+        
+    }//GEN-LAST:event_btCalcularMultaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -309,9 +354,9 @@ public class formCarro extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;
+    private javax.swing.JButton btCalcularMulta;
     private javax.swing.JButton btLimpar;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

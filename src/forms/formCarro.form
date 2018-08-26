@@ -64,7 +64,7 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace pref="59" max="32767" attributes="0"/>
-                              <Component id="jButton4" min="-2" pref="114" max="-2" attributes="0"/>
+                              <Component id="btCalcularMulta" min="-2" pref="114" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="96" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
@@ -151,7 +151,7 @@
                       </Group>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="jButton4" min="-2" max="-2" attributes="0"/>
+                      <Component id="btCalcularMulta" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -212,6 +212,9 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfPrecoLocacao">
+      <Events>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="tfPrecoLocacaoPropertyChange"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfDiasLocado">
       <Events>
@@ -219,8 +222,17 @@
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfValorTotalLocacao">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tfValorTotalLocacaoActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="tfValorMulta">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btCadastrar">
       <Properties>
@@ -240,10 +252,13 @@
         <Property name="text" type="java.lang.String" value="Sair"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="btCalcularMulta">
       <Properties>
         <Property name="text" type="java.lang.String" value="Calcular Multa"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btCalcularMultaActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lbMensagem">
       <Properties>
